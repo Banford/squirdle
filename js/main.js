@@ -70,10 +70,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const isCorrectPosition = letter === letterInThatPosition;
 
     if (isCorrectPosition) {
-      return "green";
+      return "rgb(83, 141, 78)";
     }
 
-    return "orange";
+    return "rgb(181, 159, 59)";
   }
 
   function handleDeleteLetter() {
@@ -116,6 +116,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const letterEl = document.getElementById(letterId);
         letterEl.classList.add("animate__flipInX");
         letterEl.style = `background-color: ${tileColor}; border-color: ${tileColor}`;
+
+        const keyElement = document.querySelector(`[data-key="${letter}"]`);
+        keyElement.style = `background-color: ${tileColor};`
+
       }, interval * index);
     });
 
