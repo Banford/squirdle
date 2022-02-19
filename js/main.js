@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function handleDeleteLetter() {
-    if(gameEnded) return;
+    if (gameEnded) return;
 
     let currentWordArr = getCurrentWordArr();
     if (currentWordArr.length === 0) {
@@ -86,13 +86,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const removedLetter = currentWordArr.pop();
 
-    const availableSpaceEl = document.getElementById(String(availableSpace - 1));
+    const availableSpaceEl = document.getElementById(
+      String(availableSpace - 1)
+    );
     availableSpace = availableSpace - 1;
     availableSpaceEl.textContent = "";
   }
 
   function handleSubmitWord() {
-    if(gameEnded) return;
+    if (gameEnded) return;
 
     const currentWordArr = getCurrentWordArr();
     if (currentWordArr.length !== 5) {
@@ -118,8 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
         letterEl.style = `background-color: ${tileColor}; border-color: ${tileColor}`;
 
         const keyElement = document.querySelector(`[data-key="${letter}"]`);
-        keyElement.style = `background-color: ${tileColor};`
-
+        keyElement.style = `background-color: ${tileColor};`;
       }, interval * index);
     });
 
@@ -135,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gameEnded = true;
     }
 
-    if(gameEnded) {
+    if (gameEnded) {
       return;
     }
 
@@ -158,17 +159,35 @@ document.addEventListener("DOMContentLoaded", () => {
     keys[i].onclick = ({ target }) => {
       const letter = target.getAttribute("data-key");
 
-      if(letter === "del"){
-        handleDeleteLetter();
-        return;
-      }
-
-      if (letter === "enter") {
-        handleSubmitWord();
-        return;
-      }
-
-      updateGuessedWords(letter);
+      handleKeyPress(letter);
     };
   }
+
+  function handleKeyPress(letter) {
+    if (letter === "del") {
+      handleDeleteLetter();
+      return;
+    }
+
+    if (letter === "enter") {
+      handleSubmitWord();
+      return;
+    }
+
+    updateGuessedWords(letter);
+  }
+
+  document.addEventListener("keydown", (e) => {
+    console.log(e.key);
+    let letter = e.key;
+
+    if(letter === "Enter") letter = "enter";
+    if(letter === "Backspace") letter = "del";
+
+    if(letter.match(/^[a-zA-Z]$/) || letter === "del" || letter === "enter") {
+      handleKeyPress(letter.toLowerCase());
+    }
+
+    
+  });
 });
