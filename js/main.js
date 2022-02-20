@@ -1,45 +1,76 @@
 document.addEventListener("DOMContentLoaded", () => {
   createSquares();
+
+  let word;
+  let possibleWords = [];
+
   fetchWords();
 
   let gameEnded = false;
 
   let guessedWords = [[]];
   let availableSpace = 1;
-
-  let word;
-  let possibleWords = [];
   let guessedWordCount = 0;
 
   const keys = document.querySelectorAll(".keyboard-row button");
 
   function fetchWords() {
-    const query = `query samplePokeAPIquery {
-        squirdle: pokemon_v2_pokemonspecies(where: {name: {_regex: "^[a-zA-Z]{5}$"}}, order_by: {name: asc}) {
-          name
-        }
-      }`;
+    possibleWords = [
+      "absol",
+      "aipom",
+      "arbok",
+      "azelf",
+      "bagon",
+      "budew",
+      "burmy",
+      "deino",
+      "ditto",
+      "doduo",
+      "eevee",
+      "ekans",
+      "entei",
+      "gible",
+      "gloom",
+      "golem",
+      "goomy",
+      "hoopa",
+      "hypno",
+      "inkay",
+      "klang",
+      "klink",
+      "kubfu",
+      "lotad",
+      "lugia",
+      "luxio",
+      "magby",
+      "minun",
+      "munna",
+      "numel",
+      "paras",
+      "pichu",
+      "ralts",
+      "riolu",
+      "rotom",
+      "shinx",
+      "snivy",
+      "tepig",
+      "throh",
+      "toxel",
+      "unown",
+      "yanma",
+      "zorua",
+      "zubat",
+    ];
 
-    fetch("https://beta.pokeapi.co/graphql/v1beta", {
-      method: "post",
-      body: JSON.stringify({
-        query,
-      }),
-    })
-      .then(function (response) {
-        return response.json();
-      })
-      .then((result) => {
-        const wordOptions = result.data.squirdle;
+    word = getRandomWord();
 
-        const randomIndex = Math.floor(Math.random() * wordOptions.length);
+    console.log(possibleWords);
+  }
 
-        word = wordOptions[randomIndex].name;
+  function getRandomWord() {
+    const randomIndex = Math.floor(Math.random() * possibleWords.length);
 
-        possibleWords = wordOptions.map((option) => option.name);
-
-        console.log(possibleWords);
-      });
+    return possibleWords[randomIndex];
   }
 
   function getCurrentWordArr() {
@@ -104,7 +135,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentWord = currentWordArr.join("");
 
     if (possibleWords.indexOf(currentWord) === -1) {
-      window.alert("That's not a Pokémon... silly!");
+      const suggestion = getRandomWord();
+
+      window.alert(`That's not a Pokémon... why not try ${suggestion}?`);
       return;
     }
 
@@ -178,16 +211,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.addEventListener("keydown", (e) => {
-    console.log(e.key);
     let letter = e.key;
 
-    if(letter === "Enter") letter = "enter";
-    if(letter === "Backspace") letter = "del";
+    if (letter === "Enter") letter = "enter";
+    if (letter === "Backspace") letter = "del";
 
-    if(letter.match(/^[a-zA-Z]$/) || letter === "del" || letter === "enter") {
+    if (letter.match(/^[a-zA-Z]$/) || letter === "del" || letter === "enter") {
       handleKeyPress(letter.toLowerCase());
     }
-
-    
   });
 });

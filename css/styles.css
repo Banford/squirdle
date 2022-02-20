@@ -27,13 +27,18 @@ html, body {
 header {
     border-bottom: 1px solid rgb(58, 58, 60);
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+}
+
+#explainer {
+    padding: 0 5px;
+    color: white;
 }
 
 .title {
     color: gainsboro;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: bold;
     margin: 0.4rem 0 0.4rem 0;
     text-transform: uppercase;
@@ -57,7 +62,7 @@ header {
 }
 
 .square {
-    border: 2px solid grey;
+    border: 2px solid rgb(58, 58, 60);
     min-width: 60px;
     min-height: 60px;
     font-size: 2rem;
@@ -98,6 +103,7 @@ header {
     margin-right: 6px;
     border-radius: 4px;
     user-select: none;
+    min-width: 30px;
 }
 
 .keyboard-row button.wide-button {
